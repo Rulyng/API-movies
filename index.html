@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOVIES</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -16,19 +17,54 @@
         <div class="container">
 
             <h1>MOVIES WORLD</h1>
-
+            <div class="change-page">
+                <div class="btn-row">
+                    <button class="prev"></button>
+                    <p class="current-page">1</p>
+                    <button class="next"></button>
+                </div>
+            </div>
             <div class="search-container">
-                <input class="inp-mouvie" type="text" placeholder="Enter a mouvie">
+                <input class="inp-mouvie" type="text" placeholder="batman">
                 <button class="btn-search">Search</button>
             </div>
+
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+
+            </div>
             <div class="result"></div>
+
 
         </div>
 
 
+
     </div>
 
+
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+
+    <!-- //інфініті вправо не працює -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 6,
+            spaceBetween: 30,
+            loop: true,
+            freeMode: true,
+            // clickable: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script>
 </body>
 
 </html>
