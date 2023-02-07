@@ -85,12 +85,14 @@ btnSearch.addEventListener("click", () => {
       arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
+        mod()
       });
     })
     .catch((err) => console.log("Error: " + err));
+   
 });
 
-//наступна сторінка
+//наступна сторінка   умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
 nextPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
   currentPage++;
@@ -104,20 +106,19 @@ nextPageBtn.addEventListener("click", () => {
       let arr = data.Search;
 
       //???   умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
-
       // if(arr.length < 10){
-
       // }
       // console.log(arr);
       arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
+        mod()
       });
     })
     .catch((err) => console.log("Error: " + err));
 });
 
-//???попередня сторінка
+//???попередня сторінка??? умова щоб currentPageNum та currentPage не були меньше 1????
 prevPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
   currentPage--;
@@ -144,13 +145,13 @@ prevPageBtn.addEventListener("click", () => {
       arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
+        mod()
       });
     })
     .catch((err) => console.log("Error: " + err));
 });
 
 //модалка
-
 function OpenModal() {
   const overlay = document.querySelector(".overlay");
   const modal = document.querySelector(".modal");
@@ -170,8 +171,8 @@ function OpenModal() {
   });
 }
 
-  //з другого кліку  працює модалка
-outResult.addEventListener("click", (e) => {
+//витягую фулінфу
+function mod(){
   const modalContent = document.querySelector(".modal-content");
   const mainItemAll = document.querySelectorAll(".main__item");
 
@@ -202,8 +203,7 @@ outResult.addEventListener("click", (e) => {
         .catch((err) => console.log("Error: " + err));
     };
   }
-});
-
+}
 
 //створюю картку
 function creatItem(item) {
