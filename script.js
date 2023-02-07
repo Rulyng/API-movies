@@ -4,6 +4,9 @@ const outResult = document.querySelector(".result");
 const prevPageBtn = document.querySelector(".prev");
 const nextPageBtn = document.querySelector(".next");
 const outSlider = document.querySelector(".swiper-wrapper");
+const mainItem = document.querySelector(".main__item");
+const wrapper = document.querySelector(".wrapper");
+
 
 let currentPage = 1;
 
@@ -78,7 +81,7 @@ btnSearch.addEventListener("click", () => {
     .then((data) => data.json())
     .then((data) => {
       let arr = data.Search;
-      // console.log(arr);
+      console.log(arr);
       arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
@@ -100,7 +103,7 @@ nextPageBtn.addEventListener("click", () => {
     .then((data) => {
       let arr = data.Search;
 
-      //   умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
+      //???   умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
 
       // if(arr.length < 10){
 
@@ -114,13 +117,10 @@ nextPageBtn.addEventListener("click", () => {
     .catch((err) => console.log("Error: " + err));
 });
 
-console.log(currentPageNum.value);
-
-//попередня сторінка
+//???попередня сторінка
 prevPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
   currentPage--;
-
   currentPageNum.innerText = currentPage;
 
   fetch(
@@ -129,7 +129,7 @@ prevPageBtn.addEventListener("click", () => {
     .then((data) => data.json())
     .then((data) => {
       let arr = data.Search;
-      console.log(arr);
+      console.log(data);
 
       //   умова щоб currentPageNum та currentPage не були меньше 1????
 
@@ -149,10 +149,67 @@ prevPageBtn.addEventListener("click", () => {
     .catch((err) => console.log("Error: " + err));
 });
 
+//модалка
+
+function OpenModal() {
+  const overlay = document.querySelector(".overlay");
+  const modal = document.querySelector(".modal");
+  const closeBtn = document.querySelector(".modal-close");
+
+  modal.style.display = "flex";
+  overlay.style.display = "block";
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    overlay.style.display = "none";
+  });
+
+  overlay.addEventListener("click", () => {
+    modal.style.display = "none";
+    overlay.style.display = "none";
+  });
+}
+
+  //з другого кліку  працює модалка
+outResult.addEventListener("click", (e) => {
+  const modalContent = document.querySelector(".modal-content");
+  const mainItemAll = document.querySelectorAll(".main__item");
+
+  for (let i = 0; i < mainItemAll.length; i++) {
+
+    mainItemAll[i].onclick = () => {
+      let id = mainItemAll[i].getAttribute("data-id");
+      fetch(`https://www.omdbapi.com/?i=${id}&apikey=c51e093c`)
+        .then((data) => data.json())
+        .then((data) => {
+          // console.log(data);
+          for (let key in data) {
+            modalContent.innerHTML = `
+            <h2 class="modal-title"><span>${data.Title}</span> </h2>
+      <img class="modal-img" src='${data.Poster}'> 
+      <h4 class="modal-country">Country: <span>${data.Country}</span> </h4> 
+      <h4 class="modal-actors">Actors: <span>${data.Actors}</span> </h4> 
+      <h4 class="modal-dir">Director: <span>${data.Director}</span> </h4> 
+      <h4 class="modal-genre">Genre: <span>${data.Genre}</span> </h4> 
+      <h4 class="modal-released">Released: <span>${data.Released}</span> </h4> 
+      <h4 class="modal-runtime">Runtime: <span>${data.Runtime}</span> </h4> 
+      <h4 class="modal-rating">ImdbRating: <span>${data.imdbRating}</span> </h4> 
+      `;
+          }
+
+          OpenModal() 
+        })
+        .catch((err) => console.log("Error: " + err));
+    };
+  }
+});
+
+
+//створюю картку
 function creatItem(item) {
   let mainItem = document.createElement("div");
   let mainPoster = document.createElement("img");
-  let mainTitle = document.createElement("h2");
+  let mainTitle = document.createElement("h4");
   let mainType = document.createElement("h6");
   let mainYear = document.createElement("p");
 
@@ -163,6 +220,7 @@ function creatItem(item) {
   mainYear.classList.add("main__data");
 
   mainPoster.setAttribute("src", item.Poster);
+  mainItem.setAttribute("data-id", item.imdbID);
   mainTitle.innerText = item.Title;
   mainType.innerText = item.Type.toUpperCase();
   mainYear.innerText = `Release date: ${item.Year}`;
