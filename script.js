@@ -6,10 +6,11 @@ const nextPageBtn = document.querySelector(".next");
 const outSlider = document.querySelector(".swiper-wrapper");
 const mainItem = document.querySelector(".main__item");
 const wrapper = document.querySelector(".wrapper");
+const select = document.querySelector(".select");
 
 
 let currentPage = 1;
-
+let getPages;
 const currentPageNum = document.querySelector(".current-page");
 
 // showFirst();
@@ -80,19 +81,34 @@ btnSearch.addEventListener("click", () => {
   )
     .then((data) => data.json())
     .then((data) => {
+      let numPages = Math.ceil(data.totalResults / 10)
+      getPages = numPages;
+      if(currentPage === getPages){
+        nextPageBtn.setAttribute('disabled', true);
+      }
+      if(data.Search.length === 10){
+        nextPageBtn.removeAttribute('disabled');
+      }
       let arr = data.Search;
       console.log(arr);
+
       arr.forEach((item) => {
+        console.log(item.Type);
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
         mod()
       });
+      select.onchange = ()=>{
+        selectChoice(arr)
+        mod()
+      }
+
     })
     .catch((err) => console.log("Error: " + err));
    
 });
 
-//наступна сторінка   умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
+//наступна сторінка  / умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
 nextPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
   currentPage++;
@@ -103,17 +119,22 @@ nextPageBtn.addEventListener("click", () => {
   )
     .then((data) => data.json())
     .then((data) => {
+      if(currentPage === getPages){
+        nextPageBtn.setAttribute('disabled', true);
+      }
+      if(currentPage > 1){
+        prevPageBtn.removeAttribute('disabled')
+      }
       let arr = data.Search;
-
-      //???   умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
-      // if(arr.length < 10){
-      // }
-      // console.log(arr);
       arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
         mod()
       });
+      select.onchange = ()=>{
+        selectChoice(arr)
+        mod()
+      }
     })
     .catch((err) => console.log("Error: " + err));
 });
@@ -129,24 +150,22 @@ prevPageBtn.addEventListener("click", () => {
   )
     .then((data) => data.json())
     .then((data) => {
+      if(currentPage <= 1){
+        prevPageBtn.setAttribute('disabled', true)
+      }
+      if(currentPage !== getPages){
+        nextPageBtn.removeAttribute('disabled')
+      }
       let arr = data.Search;
-      console.log(data);
-
-      //   умова щоб currentPageNum та currentPage не були меньше 1????
-
-      //   if(currentPageNum.innerHTML < 1){
-      //     prevPageBtn.setAttribute("disabled", true);
-      // }
-
-      // if(currentPageNum.innerHTML >= 1){
-      //     prevPageBtn.removeAttribute("disabled", true);
-      // }
-
-      arr.forEach((item) => {
+            arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
         mod()
       });
+      select.onchange = ()=>{
+        selectChoice(arr)
+        mod()
+      }
     })
     .catch((err) => console.log("Error: " + err));
 });
@@ -187,7 +206,7 @@ function mod(){
           for (let key in data) {
             modalContent.innerHTML = `
             <h2 class="modal-title"><span>${data.Title}</span> </h2>
-      <img class="modal-img" src='${data.Poster}'> 
+            <img class="modal-img" src='${data.Poster === "N/A" ? "./img/N.a3..jpg" : data.Poster}'> 
       <h4 class="modal-country">Country: <span>${data.Country}</span> </h4> 
       <h4 class="modal-actors">Actors: <span>${data.Actors}</span> </h4> 
       <h4 class="modal-dir">Director: <span>${data.Director}</span> </h4> 
@@ -210,22 +229,38 @@ function creatItem(item) {
   let mainItem = document.createElement("div");
   let mainPoster = document.createElement("img");
   let mainTitle = document.createElement("h4");
-  let mainType = document.createElement("h6");
   let mainYear = document.createElement("p");
 
   mainItem.classList.add("main__item");
   mainPoster.classList.add("main__poster");
   mainTitle.classList.add("main__title");
-  mainType.classList.add("main__type");
   mainYear.classList.add("main__data");
 
-  mainPoster.setAttribute("src", item.Poster);
+  if (item.Poster === 'N/A') {
+    mainPoster.setAttribute("src", "./img/N.a3..jpg");
+  } else {
+    mainPoster.setAttribute("src", item.Poster);
+  }
   mainItem.setAttribute("data-id", item.imdbID);
   mainTitle.innerText = item.Title;
-  mainType.innerText = item.Type.toUpperCase();
-  mainYear.innerText = `Release date: ${item.Year}`;
+  mainYear.innerText = `Release year: ${item.Year}`;
 
-  mainItem.append(mainPoster, mainTitle, mainType, mainYear);
+  mainItem.append(mainPoster, mainTitle, mainYear);
 
   return mainItem;
+}
+
+
+function selectChoice(choice) {
+  outResult.innerHTML = "";
+  choice.filter((item)=>{
+    if(item.Type == select.value){
+      let cartMouvie = creatItem(item);
+        outResult.append(cartMouvie);
+    }  
+    if(select.value == "all"){
+      let cartMouvie = creatItem(item);
+        outResult.append(cartMouvie);
+    }
+  })
 }

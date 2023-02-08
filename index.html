@@ -8,6 +8,7 @@
     <title>MOVIES</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -16,17 +17,24 @@
 
         <div class="container">
 
-            <h1>MOVIES WORLD</h1>
+            <h1 class="title">MOVIES WORLD</h1>
             <div class="change-page">
                 <div class="btn-row">
-                    <button class="prev"></button>
+                    <button class="prev" disabled></button>
                     <p class="current-page">1</p>
-                    <button class="next"></button>
+                    <button class="next" disabled></button>
                 </div>
             </div>
             <div class="search-container">
-                <input class="inp-mouvie" type="text" placeholder="batman">
+                <input class="inp-mouvie" type="text" placeholder="Enter movie...">
                 <button class="btn-search">Search</button>
+                <select class="select">
+                    <option value="all">All</option>
+                    <option value="movie">Movie</option>
+                    <option value="series">Series</option>
+                    <option value="episode">Episode</option>
+                </select>
+
             </div>
 
             <div class="swiper mySwiper">
