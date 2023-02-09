@@ -269,7 +269,7 @@ button:disabled {
   color: blue;
 }
 
-.modal-img{
+.modal-img {
   max-height: 500px;
   max-width: 300px;
 }
@@ -305,7 +305,7 @@ button:disabled {
     padding: 30px 16px;
   }
 
-  .modal-img{
+  .modal-img {
     max-height: 300px;
     width: 250px;
   }

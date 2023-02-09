@@ -9,10 +9,8 @@ const wrapper = document.querySelector(".wrapper");
 const select = document.querySelector(".select");
 const currentPageNum = document.querySelector(".current-page");
 
-
 let currentPage = 1;
 let getPages;
-
 
 // showFirst();
 slider();
@@ -72,7 +70,7 @@ function slider() {
     .catch((err) => console.log("Error: " + err));
 } */
 
-//пошук по імені
+//Search name
 btnSearch.addEventListener("click", () => {
   outResult.innerHTML = "";
   select.value = "all";
@@ -88,13 +86,13 @@ btnSearch.addEventListener("click", () => {
   )
     .then((data) => data.json())
     .then((data) => {
-      let numPages = Math.ceil(data.totalResults / 10)
+      let numPages = Math.ceil(data.totalResults / 10);
       getPages = numPages;
-      if(currentPage === getPages){
-        nextPageBtn.setAttribute('disabled', true);
+      if (currentPage === getPages) {
+        nextPageBtn.setAttribute("disabled", true);
       }
-      if(data.Search.length === 10){
-        nextPageBtn.removeAttribute('disabled');
+      if (data.Search.length === 10) {
+        nextPageBtn.removeAttribute("disabled");
       }
 
       let arr = data.Search;
@@ -102,20 +100,18 @@ btnSearch.addEventListener("click", () => {
         console.log(outResult.innerHTML);
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
-        mod()
+        mod();
       });
-      
-      select.onchange = ()=>{
-        selectChoice(arr)
-        mod()
-      }
 
+      select.onchange = () => {
+        selectChoice(arr);
+        mod();
+      };
     })
     .catch((err) => console.log("Error: " + err));
-   
 });
 
-//наступна сторінка  / умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
+//next Page  
 nextPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
   select.value = "all";
@@ -127,27 +123,27 @@ nextPageBtn.addEventListener("click", () => {
   )
     .then((data) => data.json())
     .then((data) => {
-      if(currentPage === getPages){
-        nextPageBtn.setAttribute('disabled', true);
+      if (currentPage === getPages) {
+        nextPageBtn.setAttribute("disabled", true);
       }
-      if(currentPage > 1){
-        prevPageBtn.removeAttribute('disabled')
+      if (currentPage > 1) {
+        prevPageBtn.removeAttribute("disabled");
       }
       let arr = data.Search;
       arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
-        mod()
+        mod();
       });
-      select.onchange = ()=>{
-        selectChoice(arr)
-        mod()
-      }
+      select.onchange = () => {
+        selectChoice(arr);
+        mod();
+      };
     })
     .catch((err) => console.log("Error: " + err));
 });
 
-//???попередня сторінка??? умова щоб currentPageNum та currentPage не були меньше 1????
+//prev Page
 prevPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
   select.value = "all";
@@ -159,27 +155,27 @@ prevPageBtn.addEventListener("click", () => {
   )
     .then((data) => data.json())
     .then((data) => {
-      if(currentPage <= 1){
-        prevPageBtn.setAttribute('disabled', true)
+      if (currentPage <= 1) {
+        prevPageBtn.setAttribute("disabled", true);
       }
-      if(currentPage !== getPages){
-        nextPageBtn.removeAttribute('disabled')
+      if (currentPage !== getPages) {
+        nextPageBtn.removeAttribute("disabled");
       }
       let arr = data.Search;
-            arr.forEach((item) => {
+      arr.forEach((item) => {
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
-        mod()
+        mod();
       });
-      select.onchange = ()=>{
-        selectChoice(arr)
-        mod()
-      }
+      select.onchange = () => {
+        selectChoice(arr);
+        mod();
+      };
     })
     .catch((err) => console.log("Error: " + err));
 });
 
-//модалка
+//modal
 function OpenModal() {
   const overlay = document.querySelector(".overlay");
   const modal = document.querySelector(".modal");
@@ -199,13 +195,12 @@ function OpenModal() {
   });
 }
 
-//витягую фулінфу
-function mod(){
+//full infa for modal
+function mod() {
   const modalContent = document.querySelector(".modal-content");
   const mainBtnAll = document.querySelectorAll(".main__btn");
 
   for (let i = 0; i < mainBtnAll.length; i++) {
-
     mainBtnAll[i].onclick = () => {
       let id = mainBtnAll[i].getAttribute("data-id");
       fetch(`https://www.omdbapi.com/?i=${id}&apikey=c51e093c`)
@@ -215,26 +210,33 @@ function mod(){
           for (let key in data) {
             modalContent.innerHTML = `
             <h2 class="modal-title"><span>${data.Title}</span> </h2>
-            <img class="modal-img" src='${data.Poster === "N/A" ? "./img/N.a3..jpg" : data.Poster}'> 
+            <img class="modal-img" src='${
+              data.Poster === "N/A" ? "./img/N.a3..jpg" : data.Poster
+            }'> 
             <button class="modal-close">Close</button>
-            <h4 class="modal-country">Country: <span>${data.Country}</span> </h4> 
+            <h4 class="modal-country">Country: <span>${
+              data.Country
+            }</span> </h4> 
       <h4 class="modal-actors">Actors: <span>${data.Actors}</span> </h4> 
       <h4 class="modal-dir">Director: <span>${data.Director}</span> </h4> 
       <h4 class="modal-genre">Genre: <span>${data.Genre}</span> </h4> 
       <h4 class="modal-released">Released: <span>${data.Released}</span> </h4> 
       <h4 class="modal-runtime">Runtime: <span>${data.Runtime}</span> </h4> 
-      <h4 class="modal-rating">ImdbRating: <span>${data.imdbRating}</span> </h4> 
+      <h4 class="modal-rating">ImdbRating: <span>${
+        data.imdbRating
+      }</span> </h4> 
       `;
           }
 
-          OpenModal() 
+          OpenModal();
         })
         .catch((err) => console.log("Error: " + err));
     };
   }
 }
 
-//створюю картку
+// creat cart
+
 function creatItem(item) {
   let mainItem = document.createElement("div");
   let mainPoster = document.createElement("img");
@@ -248,7 +250,7 @@ function creatItem(item) {
   mainYear.classList.add("main__data");
   mainBtn.classList.add("main__btn");
 
-  if (item.Poster === 'N/A') {
+  if (item.Poster === "N/A") {
     mainPoster.setAttribute("src", "./img/N.a3..jpg");
   } else {
     mainPoster.setAttribute("src", item.Poster);
@@ -263,17 +265,17 @@ function creatItem(item) {
   return mainItem;
 }
 
-
+//sort select
 function selectChoice(choice) {
   outResult.innerHTML = "";
-  choice.filter((item)=>{
-    if(item.Type == select.value){
+  choice.filter((item) => {
+    if (item.Type == select.value) {
       let cartMouvie = creatItem(item);
-        outResult.append(cartMouvie);
-    }  
-    if(select.value == "all"){
-      let cartMouvie = creatItem(item);
-        outResult.append(cartMouvie);
+      outResult.append(cartMouvie);
     }
-  })
+    if (select.value == "all") {
+      let cartMouvie = creatItem(item);
+      outResult.append(cartMouvie);
+    }
+  });
 }
