@@ -307,7 +307,7 @@ button:disabled {
 
   .modal-img{
     max-height: 300px;
-    max-width: 200px;
+    width: 250px;
   }
 }
 
