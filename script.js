@@ -7,11 +7,12 @@ const outSlider = document.querySelector(".swiper-wrapper");
 const mainItem = document.querySelector(".main__item");
 const wrapper = document.querySelector(".wrapper");
 const select = document.querySelector(".select");
+const currentPageNum = document.querySelector(".current-page");
 
 
 let currentPage = 1;
 let getPages;
-const currentPageNum = document.querySelector(".current-page");
+
 
 // showFirst();
 slider();
@@ -77,6 +78,11 @@ btnSearch.addEventListener("click", () => {
   select.value = "all";
   currentPage = 1;
   currentPageNum.innerText = currentPage;
+  if (!inpMouvie.value) {
+    alert("Please enter a value in the search input field.");
+    inpMouvie.value = "";
+    return;
+  }
   fetch(
     `https://www.omdbapi.com/?s=${inpMouvie.value}&page=${currentPage}&apikey=c51e093c`
   )
@@ -90,15 +96,15 @@ btnSearch.addEventListener("click", () => {
       if(data.Search.length === 10){
         nextPageBtn.removeAttribute('disabled');
       }
-      let arr = data.Search;
-      console.log(arr);
 
+      let arr = data.Search;
       arr.forEach((item) => {
-        console.log(item.Type);
+        console.log(outResult.innerHTML);
         let cartMouvie = creatItem(item);
         outResult.append(cartMouvie);
         mod()
       });
+      
       select.onchange = ()=>{
         selectChoice(arr)
         mod()
