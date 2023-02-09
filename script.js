@@ -216,7 +216,8 @@ function mod(){
             modalContent.innerHTML = `
             <h2 class="modal-title"><span>${data.Title}</span> </h2>
             <img class="modal-img" src='${data.Poster === "N/A" ? "./img/N.a3..jpg" : data.Poster}'> 
-      <h4 class="modal-country">Country: <span>${data.Country}</span> </h4> 
+            <button class="modal-close">Close</button>
+            <h4 class="modal-country">Country: <span>${data.Country}</span> </h4> 
       <h4 class="modal-actors">Actors: <span>${data.Actors}</span> </h4> 
       <h4 class="modal-dir">Director: <span>${data.Director}</span> </h4> 
       <h4 class="modal-genre">Genre: <span>${data.Genre}</span> </h4> 
