@@ -74,6 +74,7 @@ function slider() {
 //пошук по імені
 btnSearch.addEventListener("click", () => {
   outResult.innerHTML = "";
+  select.value = "all";
   currentPage = 1;
   currentPageNum.innerText = currentPage;
   fetch(
@@ -111,6 +112,7 @@ btnSearch.addEventListener("click", () => {
 //наступна сторінка  / умова якщо список фільмів закінчився щоб currentPageNum та currentPage не змінювались????
 nextPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
+  select.value = "all";
   currentPage++;
 
   currentPageNum.innerText = currentPage;
@@ -142,6 +144,7 @@ nextPageBtn.addEventListener("click", () => {
 //???попередня сторінка??? умова щоб currentPageNum та currentPage не були меньше 1????
 prevPageBtn.addEventListener("click", () => {
   outResult.innerHTML = "";
+  select.value = "all";
   currentPage--;
   currentPageNum.innerText = currentPage;
 
@@ -193,12 +196,12 @@ function OpenModal() {
 //витягую фулінфу
 function mod(){
   const modalContent = document.querySelector(".modal-content");
-  const mainItemAll = document.querySelectorAll(".main__item");
+  const mainBtnAll = document.querySelectorAll(".main__btn");
 
-  for (let i = 0; i < mainItemAll.length; i++) {
+  for (let i = 0; i < mainBtnAll.length; i++) {
 
-    mainItemAll[i].onclick = () => {
-      let id = mainItemAll[i].getAttribute("data-id");
+    mainBtnAll[i].onclick = () => {
+      let id = mainBtnAll[i].getAttribute("data-id");
       fetch(`https://www.omdbapi.com/?i=${id}&apikey=c51e093c`)
         .then((data) => data.json())
         .then((data) => {
@@ -230,22 +233,25 @@ function creatItem(item) {
   let mainPoster = document.createElement("img");
   let mainTitle = document.createElement("h4");
   let mainYear = document.createElement("p");
+  let mainBtn = document.createElement("button");
 
   mainItem.classList.add("main__item");
   mainPoster.classList.add("main__poster");
   mainTitle.classList.add("main__title");
   mainYear.classList.add("main__data");
+  mainBtn.classList.add("main__btn");
 
   if (item.Poster === 'N/A') {
     mainPoster.setAttribute("src", "./img/N.a3..jpg");
   } else {
     mainPoster.setAttribute("src", item.Poster);
   }
-  mainItem.setAttribute("data-id", item.imdbID);
+  mainBtn.setAttribute("data-id", item.imdbID);
   mainTitle.innerText = item.Title;
   mainYear.innerText = `Release year: ${item.Year}`;
+  mainBtn.innerText = `Detail`;
 
-  mainItem.append(mainPoster, mainTitle, mainYear);
+  mainItem.append(mainPoster, mainTitle, mainYear, mainBtn);
 
   return mainItem;
 }

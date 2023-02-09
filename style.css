@@ -6,6 +6,7 @@
 
 body {
   background: url(img/teahub.io-battleblock-theater-wallpaper-2692207-\(1\).jpg);
+  /* background:#1243FF; */
   background-repeat: no-repeat;
   background-size: cover;
     
@@ -13,6 +14,7 @@ body {
 button {
   background: transparent;
   border: none;
+  display: block;
 }
 
 .wrapper {
@@ -105,10 +107,12 @@ button {
 .btn-search:hover {
 background-color: rgb(9, 9, 243);
 }
+
 .result {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
+  grid-gap: 15px;
+  height: 100vh;
 }
 
 .select{
@@ -121,37 +125,55 @@ background-color: rgb(9, 9, 243);
 }
 
 .main__item {
+  max-height: 480px;
   padding: 16px;
   font-size: 17px;
   border-radius: 20px;
   border: 2px solid;
-  cursor:pointer;
   background-color: rgba(24, 17, 28, 0.707);
   color: #fff;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
+  transition: transform 0.5s ease-in-out;
 }
 
 .main__item:hover {
-  background-color: rgba(159, 32, 159, 0.613);
-  border: 2px solid red;
+  background-color: rgba(58, 43, 67, 0.707);
+  border: 2px solid grey;
+  transform: scale(1.05);
+ transition: transform 0.5s ease-in-out;
 }
 
 .main__poster {
   display: block;
   width: 100%;
-  height: 300px;
-  transition: transform 2s ease-in-out;
-}
-.main__poster:hover {
- transform: scale(1.07);
- transition: transform 2s ease-in-out;
+  height: 250px;
 }
 
 .main__title{
-  font-size: 19px;
+  font-size: 15px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.main__btn{
+  padding: 15px;
+  max-width: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: rgb(9, 49, 230);
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+bottom: 6px;
+left: 76px;
+}
+
+.main__btn:hover{
+  background-color: aliceblue;
+  color: blue;
 }
 
 .btn-row{
@@ -170,13 +192,13 @@ justify-content: center;
 }
 
 .btn-row button:hover{
-  background-color: blue;
-  color: aliceblue;
+  background-color: rgb(9, 49, 230);
+color: rgb(239, 242, 244);
 }
 
 .prev, .next{
-  background-color: rgb(9, 49, 230);
-color: rgb(239, 242, 244);
+background-color: blue;
+color: aliceblue;
 }
 
 button:disabled {
