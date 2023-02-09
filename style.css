@@ -122,6 +122,12 @@ background-color: rgb(9, 9, 243);
   text-align: center;
   font-size: 18px;
   font-weight: bold;
+  cursor: pointer;
+letter-spacing: 0.08em;
+}
+
+.select:hover{
+  background-color: rgba(237, 230, 230, 0.985);
 }
 
 .main__item {
