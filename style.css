@@ -6,10 +6,8 @@
 
 body {
   background: url(img/teahub.io-battleblock-theater-wallpaper-2692207-\(1\).jpg);
-  /* background:#1243FF; */
-  /* background-repeat: no-repeat; */
-  background-repeat: repeat-y;
-  background-size: contain;
+  background-attachment: fixed;
+background-size: cover
 }
 button {
   background: transparent;
@@ -52,6 +50,7 @@ button {
   width: 100%;
   height: 225px;
   object-fit: cover;
+  border-radius: 0.5em;
 }
 
 .title {
@@ -63,10 +62,19 @@ button {
   line-height: 23px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: white;
+  color: rgb(255, 255, 255);
   text-shadow: -1px 1px 19px #1243ff;
+  animation: glow 1s ease-in-out infinite alternate;
 }
 
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
 .search-container {
   display: flex;
   justify-content: center;
@@ -76,6 +84,7 @@ button {
 }
 
 .inp-mouvie {
+  border-radius: 0.5em;
   width: 500px;
   font-size: 1em;
   padding: 1em;
@@ -83,12 +92,12 @@ button {
   border-bottom: 4px solid blue;
   outline: none;
   color: rgb(0, 0, 0);
-  background-color: rgba(228, 207, 207, 0.985);
+  background-color: rgba(245, 241, 241, 0.985);
 }
 
 .inp-mouvie:hover {
   border-bottom: 4px solid rgb(0, 51, 255);
-  background-color: rgba(228, 228, 228, 0.985);
+  background-color: rgba(255, 255, 255, 0.985);
 }
 
 .btn-search {
@@ -117,6 +126,7 @@ button {
 }
 
 .select {
+  border-radius: 0.5em;
   border-bottom: 4px solid blue;
   color: rgb(0, 0, 0);
   background-color: rgba(253, 253, 253, 0.985);
@@ -158,6 +168,7 @@ button {
   display: block;
   width: 100%;
   height: 250px;
+  object-fit: cover;
 }
 
 .main__title {
@@ -167,7 +178,7 @@ button {
 
 .main__btn {
   padding: 15px;
-  max-width: 100px;
+  width: 100%;
   border-radius: 10px;
   cursor: pointer;
   background-color: rgb(9, 49, 230);
@@ -272,6 +283,7 @@ button:disabled {
 .modal-img {
   max-height: 500px;
   max-width: 300px;
+  object-fit: cover;
 }
 
 .modal-content span {
@@ -323,5 +335,10 @@ button:disabled {
   .search-container {
     flex-wrap: wrap;
     margin: 20px 0;
+  }
+
+  .main__item {
+    max-height: 470px;
+   width: 100%;
   }
 }
