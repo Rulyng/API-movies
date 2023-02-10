@@ -337,8 +337,7 @@ button:disabled {
     margin: 20px 0;
   }
 
-  .main__item {
-    max-height: 470px;
-   width: 100%;
+  .result {
+    grid-template-columns: repeat(auto-fit, 100%);
   }
 }
